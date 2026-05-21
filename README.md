@@ -1,6 +1,6 @@
 <h1>ExpNo 4 : Implement A* search algorithm for a Graph</h1> 
-<h3>Name:       </h3>
-<h3>Register Number:           </h3>
+<h3>Name:TAMIL SELVI V
+<h3>Register Number:212224060274
 <H3>Aim:</H3>
 <p>To ImplementA * Search algorithm for a Graph using Python 3.</p>
 <H3>Algorithm:</H3>
@@ -117,3 +117,53 @@ G 0 <br>
 <h2>Sample Output</h2>
 <hr>
 Path found: ['A', 'E', 'D', 'G']
+
+# program
+import heapq
+
+def astar(graph, h, start, goal):
+    open_list = [(h[start], 0, start, None)]  # (f, g, node, parent)
+    closed = {}
+    parent = {}
+    while open_list:
+        f, g, node, par = heapq.heappop(open_list)
+        if node in closed and closed[node] <= g:
+            continue
+
+        parent[node] = par
+        closed[node] = g
+
+        if node == goal:
+            path = []
+            while node:
+                path.append(node)
+                node = parent[node]
+            return path[::-1]
+
+        for nei, cost in graph.get(node, []):
+            new_g = g + cost
+            new_f = new_g + h[nei]
+            heapq.heappush(open_list, (new_f, new_g, nei, node))
+
+n, e = map(int, input().split())
+graph = {}
+for _ in range(e):
+    u, v, w = input().split()
+    w = int(w)
+    graph.setdefault(u, []).append((v, w))
+    graph.setdefault(v, []).append((u, w))
+
+h = {}
+for _ in range(n):
+    node, val = input().split()
+    h[node] = int(val)
+    
+start, goal = input().split()
+path = astar(graph, h, start, goal)
+print("Path found:", path)
+
+# output
+<img width="827" height="536" alt="image" src="https://github.com/user-attachments/assets/994ea46e-85d9-4d09-bde1-3d470ef56d20" />
+
+# result
+Thus a graph was constructed and implemantation of A star Search for the same graph was done successfully.
